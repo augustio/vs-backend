@@ -10,6 +10,10 @@ const recordSchema = Schema({
   startTimeStamp: {type: Number, required: true},
   endTimeStamp: {type: Number},
   size: {type: Number},
+  samplingRate: {type: Number, default: 250},
+  pEStart: [{type: Number}],
+  pEEnd: [{type: Number}],
+  temp: [{type: Number}],
   sessionConfigParams: {type: {}}
 });
 
