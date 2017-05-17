@@ -1,11 +1,11 @@
 const User = require('../models/user');
 
-//Send list of users depending on the role and/or group of the user that made the request
+//Send list of users
 exports.getUsers = function(req, res, next) {
   res.send('NOT IMPLEMENTED: GET_USERS');
 };
 
-//Send list of patient-users depending on the role and/or group of the user that made the request
+//Send list of patient-users
 exports.getPatients = function(req, res, next) {
   res.send('NOT IMPLEMENTED: GET_PATIENTS');
 };
