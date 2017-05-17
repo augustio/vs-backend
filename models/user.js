@@ -7,9 +7,9 @@ const Schema = mongoose.Schema;
 
 const userSchema = Schema({
   userId: {type: String, required: true, max: 100},
-  email: {type: String, max: 100}
+  email: {type: String, max: 100},
   pwd: {type: String, required: true},
-  role: {type: String, required: true, enum: ['sudo', 'admin', 'doctor', 'patient']}
+  role: {type: String, required: true, enum: ['sudo', 'admin', 'doctor', 'patient']},
   group: {type: Schema.ObjectId, ref: 'Group', required: true}
 });
 userSchema.index({userId: 1}, {unique: true});
