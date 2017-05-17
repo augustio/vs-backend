@@ -13,7 +13,9 @@ const recordSchema = Schema({
   samplingRate: {type: Number, default: 250},
   pEStart: [{type: Number}],
   pEEnd: [{type: Number}],
-  temp: [{type: Number}]
+  temp: [{type: Number}],
+  data: {type: String, ref: 'RecordData'},
+  analysis: {type: String, ref: 'RecordAnalysis'}
 });
 
 recordSchema.index({timeStamp: 1, patientId: 1});
