@@ -12,6 +12,13 @@ const records = require('./routes/records');
 
 const app = express();
 
+//Set up mongoose connection
+const mongoose = require('mongoose');
+const dbURL = "mongodb://83.136.249.208:27017/vs_db";
+mongoose.connect(dbURL);
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
