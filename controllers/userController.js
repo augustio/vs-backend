@@ -12,7 +12,7 @@ exports.getPatients = function(req, res, next) {
 
 //Send one user
 exports.getUser = function(req, res, next) {
-  res.send('NOT IMPLEMENTED: GET_USER: ' + req.params.id);
+  res.send('NOT IMPLEMENTED: GET_USER: ' + req.params.userId);
 };
 
 //Handle create user request
