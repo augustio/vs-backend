@@ -8,6 +8,6 @@ const groupSchema = Schema({
 });
 
 groupSchema.index({name: 1}, {unique: true});
-userSchema.plugin(uniqueValidator);
+groupSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model('Group', groupSchema);

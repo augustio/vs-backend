@@ -13,8 +13,7 @@ const recordSchema = Schema({
   samplingRate: {type: Number, default: 250},
   pEStart: [{type: Number}],
   pEEnd: [{type: Number}],
-  temp: [{type: Number}],
-  sessionConfigParams: {type: {}}
+  temp: [{type: Number}]
 });
 
 recordSchema.index({timeStamp: 1, patientId: 1});
