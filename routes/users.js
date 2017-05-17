@@ -7,6 +7,9 @@ const User = require('../controllers/userController');
 // POST request for creating user.
 router.post('/', User.createUser);
 
+// GET request for list of users with role patient
+router.get('/patients', User.getPatients);
+
 // GET request for a single user.
 router.get('/:userId', User.getUser);
 
@@ -17,6 +20,6 @@ router.get('/', User.getUsers);
 router.post('/:userId/delete', User.deleteUser);
 
 // POST request to update user.
-router.post('/:query/update', User.updateUser);
+router.post('/:password/update', User.updateUser);
 
 module.exports = router;

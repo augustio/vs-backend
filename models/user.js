@@ -8,7 +8,7 @@ const Schema = mongoose.Schema;
 const userSchema = Schema({
   userId: {type: String, required: true, max: 100},
   email: {type: String, max: 100},
-  pwd: {type: String, required: true},
+  password: {type: String, required: true},
   role: {type: String, required: true, enum: ['sudo', 'admin', 'doctor', 'patient']},
   group: {type: Schema.ObjectId, ref: 'Group', required: true}
 });
@@ -19,12 +19,12 @@ userSchema.plugin(uniqueValidator);
 
 userSchema.pre('save', function(next){
   const user = this;
-  if(!user.isModified('pwd')) return next();
-  bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt){
+  if(!user.isModified('password')) return next();
+  bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
     if(err) return next(err);
-    bcrypt.hash(user.pwd, salt, function(err, hash){
+    bcrypt.hash(user.password, salt, (err, hash) => {
       if(err) return next(err);
-      user.pwd = hash;
+      user.password = hash;
       next();
     });
   });

@@ -6,6 +6,9 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 const users = require('./routes/users');
+const groups = require('./routes/groups');
+const auth = require('./routes/auth');
+const records = require('./routes/records');
 
 const app = express();
 
@@ -16,7 +19,10 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '../vitalsens-client/dist')));
 
+app.use('/auth', auth);
 app.use('/api/users', users);
+app.use('/api/groups', groups);
+app.use('/api/records', records);
 
 // catch 404 and forward to error handler
 app.use( (req, res, next) => {

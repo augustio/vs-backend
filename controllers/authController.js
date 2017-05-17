@@ -1,9 +1,4 @@
-const User = require('../models/User');
-
-//Register new user
-exports.register = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: REGISTER');
-};
+const User = require('../models/user');
 
 //User login
 exports.login = (req, res, next) => {

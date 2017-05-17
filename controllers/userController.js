@@ -22,10 +22,10 @@ exports.createUser = function(req, res, next) {
 
 //Handle delete user request
 exports.deleteUser = function(req, res, next) {
-  res.send('NOT IMPLEMENTED: DELETE_USER');
+  res.send('NOT IMPLEMENTED: DELETE_USER: ' + req.params.userId);
 };
 
 //Handle update user request
 exports.updateUser = function(req, res, next) {
-  res.send('NOT IMPLEMENTED: UPDATE_USER');
+  res.send('NOT IMPLEMENTED: UPDATE_USER: ' + req.params._id + ' : '  + JSON.stringify(req.body));
 };
