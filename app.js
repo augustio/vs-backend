@@ -44,7 +44,7 @@ app.use( (err, req, res, next) => {
   //let error = req.app.get('env') === 'development' ? err : {};
   let message = _.get(err, 'errors.code.message');
   let status = err.status;
-  if(message) status = 400;
+  if(message) { status = 400; }
   res.status(err.status || 500).send({message: message || err.message});
 });
 
