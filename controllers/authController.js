@@ -1,6 +1,36 @@
 const User = require('../models/user');
+const jwt = require('jwt-simple');
+const moment = require('moment');
+const bcrypt = require('bcrypt');
+const TOKEN_SECRET = "v1t4753n553cr3tk3y";
 
 //User login
 exports.login = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: LOGIN');
+  User.findOne({userId: req.body.userId}, (err, user) => {
+    if(!user) {
+      return next({status: 404, message: 'User not registered'});
+    }
+    bcrypt.compare(req.body.password, user.password, (err, result) => {
+      if(result){
+        res.status(200).send({token: createToken(user)});
+      }else{
+        return next({status: 400, message: 'Wrong password'});
+      }
+    });
+  });
+};
+
+const createToken = user => {
+  const payload = {
+    user:{
+      _id: user._id,
+      userId: user.userId,
+      role: user.role,
+      group: user.group
+    },
+    iat: moment().unix(),
+    exp: moment().add(48, 'hours').unix()
+  };
+
+  return jwt.encode(payload, TOKEN_SECRET);
 };
