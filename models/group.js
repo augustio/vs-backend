@@ -4,10 +4,10 @@ const uniqueValidator = require('mongoose-unique-validator');
 const Schema = mongoose.Schema;
 
 const groupSchema = Schema({
-  name: {type: String, required: true, max: 100}
+  name: {type: String, required: true, max: 100},
+  code: {type: String, required: true, index: true, uniqueCaseInsensitive: true, unique: true, max: 50}
 });
 
-groupSchema.index({name: 1}, {unique: true});
-groupSchema.plugin(uniqueValidator);
+groupSchema.plugin(uniqueValidator, {message: 'Error, expected {PATH} to be unique.'});
 
 module.exports = mongoose.model('Group', groupSchema);

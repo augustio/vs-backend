@@ -13,6 +13,7 @@
     "debug": "~2.6.3",
     "express": "~4.15.2",
     "jade": "~1.11.0",
+    "lodash": "^4.17.4",
     "mongoose": "^4.9.9",
     "mongoose-unique-validator": "^1.0.5",
     "morgan": "~1.8.1",

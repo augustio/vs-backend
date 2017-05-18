@@ -2,6 +2,7 @@ const Group = require('../models/group');
 
 //Send list of groups
 exports.getGroups = function(req, res, next) {
+
   res.send('NOT IMPLEMENTED: GET_GROUPS');
 };
 
@@ -11,8 +12,17 @@ exports.getGroup = function(req, res, next) {
 };
 
 //Handle create group request
-exports.createGroup = function(req, res, next) {
-  res.send('NOT IMPLEMENTED: CREATE_GROUP');
+exports.createGroup = (req, res, next) => {
+  const group = new Group(req.body);
+  if(!group.name || !group.code){
+    let err = new Error('Group name and/or code is required');
+    err.status = 400;
+    next(err);
+  }
+  group.save( err => {
+    if(err) return next(err);
+    res.status(200).send({message: 'group successfully created'});
+  });
 };
 
 //Handle delete user request

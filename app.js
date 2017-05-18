@@ -4,6 +4,7 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const _ = require('lodash');
 
 const users = require('./routes/users');
 const groups = require('./routes/groups');
@@ -40,12 +41,11 @@ app.use( (req, res, next) => {
 
 // error handler
 app.use( (err, req, res, next) => {
-  // Provide error message only in development
   //let error = req.app.get('env') === 'development' ? err : {};
-
-  // Send error status and message
-  res.status(err.status || 500);
-  res.send(err);
+  let message = _.get(err, 'errors.code.message');
+  let status = err.status;
+  if(message) status = 400;
+  res.status(err.status || 500).send({message: message || err.message});
 });
 
 module.exports = app;
