@@ -1,8 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const checkAuthenticated = require('../services/checkAuthenticated');
 
 // Require controller modules
 const User = require('../controllers/userController');
+
+//Apply authentication middleware
+router.use(checkAuthenticated.authenticate);
 
 // POST request for creating user.
 router.post('/', User.createUser);
