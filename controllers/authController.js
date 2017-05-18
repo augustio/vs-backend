@@ -2,7 +2,7 @@ const User = require('../models/user');
 const jwt = require('jwt-simple');
 const moment = require('moment');
 const bcrypt = require('bcrypt');
-const TOKEN_SECRET = "v1t4753n553cr3tk3y";
+const config = require('../config/config');
 
 //User login
 exports.login = (req, res, next) => {
@@ -32,5 +32,5 @@ const createToken = user => {
     exp: moment().add(48, 'hours').unix()
   };
 
-  return jwt.encode(payload, TOKEN_SECRET);
+  return jwt.encode(payload, config.TOKEN_SECRET);
 };

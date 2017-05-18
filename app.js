@@ -10,13 +10,14 @@ const users = require('./routes/users');
 const groups = require('./routes/groups');
 const auth = require('./routes/auth');
 const records = require('./routes/records');
+const config = require('./config/config');
 
 const app = express();
 
 //Set up mongoose connection
 const mongoose = require('mongoose');
-const dbURL = "mongodb://83.136.249.208:27017/vs_db";
-mongoose.connect(dbURL);
+
+mongoose.connect(config.dbURL);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
