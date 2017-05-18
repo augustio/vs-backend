@@ -8,6 +8,6 @@ const groupSchema = Schema({
   code: {type: String, required: true, index: true, uniqueCaseInsensitive: true, unique: true, max: 50}
 });
 
-groupSchema.plugin(uniqueValidator, {message: 'Error, expected {PATH} to be unique.'});
+groupSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model('Group', groupSchema);

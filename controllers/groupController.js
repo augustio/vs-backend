@@ -37,17 +37,17 @@ exports.createGroup = (req, res, next) => {
 exports.deleteGroup = function(req, res, next) {
   User.findOne({group: req.params.group_id})
     .exec((err, user) => {
-    if(user){
-      let err = new Error('Group is referenced by at least one user and cannot be deleted');
-      err.status = 403;
-      return next(err);
-    }
-    Group.deleteOne({_id: req.params.group_id})
-      .exec( err => {
-        if(err) { return next(err); }
-        res.status(200).send({message: 'group successfully deleted'});
-      });
-  });
+      if(user){
+        let err = new Error('Group is referenced by at least one user and cannot be deleted');
+        err.status = 403;
+        return next(err);
+      }
+      Group.deleteOne({_id: req.params.group_id})
+        .exec( err => {
+          if(err) { return next(err); }
+          res.status(200).send({message: 'group successfully deleted'});
+        });
+    });
 };
 
 //Handle update user request

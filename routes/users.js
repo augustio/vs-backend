@@ -20,6 +20,6 @@ router.get('/', User.getUsers);
 router.post('/:userId/delete', User.deleteUser);
 
 // POST request to update user.
-router.post('/:password/update', User.updateUser);
+router.post('/:userId/update', User.updateUser);
 
 module.exports = router;

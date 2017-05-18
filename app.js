@@ -42,10 +42,7 @@ app.use( (req, res, next) => {
 // error handler
 app.use( (err, req, res, next) => {
   //let error = req.app.get('env') === 'development' ? err : {};
-  let message = _.get(err, 'errors.code.message');
-  let status = err.status;
-  if(message) { status = 400; }
-  res.status(err.status || 500).send({message: message || err.message});
+  res.status(err.status || 500).send({message: err.message});
 });
 
 module.exports = app;
