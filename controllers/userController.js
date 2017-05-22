@@ -1,27 +1,48 @@
 const User = require('../models/user');
 const Record = require('../models/user');
 
-//Send list of users
+//Get list of users
 exports.getUsers = function(req, res, next) {
-  User.find()
+  let query = {};
+  let role = req.user.role;
+  if(role === 'patient') {
+    query.userId = req.user.userId;
+  }
+  if(role === 'doctor') {
+    query.group = req.user.group;
+    query.role = 'patient';
+  }
+  if(role === 'admin') {
+    query.group = req.user.group;
+    query.$or = [{role: /doctor/}, {role: /patient/}];
+  }else{query.role = {$not: /sudo/}}
+  User.find(query)
     .exec((err, list_users) => {
       if(err) { return next(err); }
       res.status(200).send({users: list_users});
     });
 };
 
-//Send list of patient-users
+//Get list of patient-users
 exports.getPatients = function(req, res, next) {
-  User.find({role: 'patient'})
+  let query = {role: 'patient'};
+  let role = req.user.role;
+  if(role === 'patient') {query.userId = req.user.userId;}
+  if(role === 'admin' || role === 'doctor') {query.group = req.user.group;}
+  User.find(query)
     .exec((err, list_users) => {
       if(err) { return next(err); }
       res.status(200).send({users: list_users});
     });
 };
 
-//Send one user
+//Get one user
 exports.getUser = function(req, res, next) {
-  User.findOne({userId: req.params.userId})
+  let role = req.user.role;
+  let query = {userId: req.params.userId};
+  if(role === 'admin' || role === 'doctor'){query.group = req.user.group;}
+  if(role === 'patient'){query.userId = req.user.userId;}
+  User.findOne(query)
     .populate('group')
     .exec((err, user) => {
       if(err) { return next(err); }
@@ -32,20 +53,25 @@ exports.getUser = function(req, res, next) {
 //Handle create user request
 exports.createUser = function(req, res, next) {
   const user = new User(req.body);
-  user.save(err => {
-    if(err) { return next(err); }
-    res.status(200).send({message: 'user successfully created'});
-  });
+  if(req.user.role === 'sudo' ||
+    (req.user.role === 'admin' && req.user.group == user.group)){
+    user.save(err => {
+      if(err) { return next(err); }
+      res.status(200).send({message: 'user successfully created'});
+    });
+  }else {return next({status: 403, message: 'Not authorized'});}
 };
 
 //Handle delete user request
 exports.deleteUser = function(req, res, next) {
+  if(req.user.role !== 'sudo' &&
+  (req.user.role !== 'admin' || req.user.group != user.group)){
+    return next({status: 403, message: 'Not authorized'});
+  }
   Record.findOne({patientId: req.params.userId})
     .exec((err, record) => {
       if(record){
-        let err = new Error('User has at least one record and cannot be deleted');
-        err.status = 403;
-        return next(err);
+        return next({status: 403, message: 'User has at least one record and cannot be deleted'});
       }
       User.deleteOne({userId: req.params.userId})
         .exec( err => {
@@ -57,6 +83,9 @@ exports.deleteUser = function(req, res, next) {
 
 //Handle update user request
 exports.updateUser = function(req, res, next) {
+  if(req.params.userId != req.user.userId){
+    return next({status: 403, message: 'Not authorized'});
+  }
   let query = {userId: req.params.userId};
   let update = {};
   if(req.body.email) { update.email = req.body.email};
