@@ -2,17 +2,15 @@ const User = require('../models/user');
 const Record = require('../models/user');
 
 //Get list of users
-exports.getUsers = function(req, res, next) {
+exports.getUsers = (req, res, next) => {
   let query = {};
   let role = req.user.role;
   if(role === 'patient') {
     query.userId = req.user.userId;
-  }
-  if(role === 'doctor') {
+  }else if(role === 'doctor') {
     query.group = req.user.group;
     query.role = 'patient';
-  }
-  if(role === 'admin') {
+  }else if(role === 'admin') {
     query.group = req.user.group;
     query.$or = [{role: /doctor/}, {role: /patient/}];
   }else{query.role = {$not: /sudo/}}
@@ -24,7 +22,7 @@ exports.getUsers = function(req, res, next) {
 };
 
 //Get list of patient-users
-exports.getPatients = function(req, res, next) {
+exports.getPatients = (req, res, next) => {
   let query = {role: 'patient'};
   let role = req.user.role;
   if(role === 'patient') {query.userId = req.user.userId;}
@@ -37,7 +35,7 @@ exports.getPatients = function(req, res, next) {
 };
 
 //Get one user
-exports.getUser = function(req, res, next) {
+exports.getUser = (req, res, next) => {
   let role = req.user.role;
   let query = {userId: req.params.userId};
   if(role === 'admin' || role === 'doctor'){query.group = req.user.group;}
@@ -51,7 +49,7 @@ exports.getUser = function(req, res, next) {
 };
 
 //Handle create user request
-exports.createUser = function(req, res, next) {
+exports.createUser = (req, res, next) => {
   const user = new User(req.body);
   if(req.user.role === 'sudo' ||
     (req.user.role === 'admin' && req.user.group == user.group)){
@@ -63,21 +61,29 @@ exports.createUser = function(req, res, next) {
 };
 
 //Handle delete user request
-exports.deleteUser = function(req, res, next) {
-  if(req.user.role !== 'sudo' &&
-  (req.user.role !== 'admin' || req.user.group != user.group)){
+exports.deleteUser = (req, res, next) => {
+  let role = req.user.role;
+  if(role !== 'sudo' && role !== 'admin'){
     return next({status: 403, message: 'Not authorized'});
   }
-  Record.findOne({patientId: req.params.userId})
-    .exec((err, record) => {
-      if(record){
-        return next({status: 403, message: 'User has at least one record and cannot be deleted'});
+  User.findOne({userId: req.params.userId})
+    .exec((err, user) => {
+      if(user){
+        if(role === 'admin' && req.user.group != user.group){
+          return next({status: 403, message: 'Not authorized'});
+        }
+        Record.findOne({patientId: req.params.userId})
+          .exec((err, record) => {
+            if(record){
+              return next({status: 403, message: 'User has at least one record and cannot be deleted'});
+            }
+            User.deleteOne({userId: req.params.userId})
+              .exec( err => {
+                if(err) { return next(err); }
+                res.status(200).send({message: 'user successfully deleted'});
+              });
+          });
       }
-      User.deleteOne({userId: req.params.userId})
-        .exec( err => {
-          if(err) { return next(err); }
-          res.status(200).send({message: 'user successfully deleted'});
-        });
     });
 };
 

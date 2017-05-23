@@ -20,10 +20,10 @@ router.get('/:userId', User.getUser);
 // GET request for list of users.
 router.get('/', User.getUsers);
 
-// POST request to delete user.
-router.post('/:userId/delete', User.deleteUser);
+// DELETE request to delete user.
+router.delete('/:userId', User.deleteUser);
 
-// POST request to update user.
-router.post('/:userId/update', User.updateUser);
+// PUT request to update user.
+router.put('/:userId', User.updateUser);
 
 module.exports = router;
