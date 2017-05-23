@@ -14,9 +14,9 @@ router.get('/:group_id', Group.getGroup);
 router.get('/', Group.getGroups);
 
 // POST request to delete group.
-router.post('/:group_id/delete', Group.deleteGroup);
+router.delete('/:group_id', Group.deleteGroup);
 
 // POST request to update group.
-router.post('/:group_id/update', Group.updateGroup);
+router.put('/:group_id', Group.updateGroup);
 
 module.exports = router;
