@@ -1,0 +1,39 @@
+const Record = require('../models/record');
+const RecordData = require('../models/recordData');
+
+module.exports = {
+  buildRecord: reqBody => {
+    return new Record({
+      _id: `${reqBody.patientId}_${reqBody.type}_${reqBody.recStart}`,
+      patientId: reqBody.patientId,
+      type: reqBody.type,
+      recStart: reqBody.recStart,
+      recEnd: reqBody.recEnd,
+      size: reqBody.chOne.length,
+      samplingRate: reqBody.samplingRate,
+      pEStart: [reqBody.pEStart],
+      pEEnd: [reqBody.pEEnd],
+      temp: [reqBody.temp]
+    });
+  },
+
+  buildRecordData: reqBody => {
+    return new RecordData({
+      _id: `${reqBody.patientId}_${reqBody.type}_${reqBody.recStart}`,
+      chOne: reqBody.chOne,
+      chTwo: reqBody.chTwo,
+      chThree: reqBody.chThree
+    });
+  },
+
+  buildRecordAnalysis: data => {
+    return new RecordAnalysis({
+      _id: data.requestId,
+      rPeaks: data.rpeaks,
+      pvcEvents: data.pvcevents,
+      rrIntervals: data.rrintervals,
+      hrvFeatures: data.hrvfeatures,
+      afibEvents: afibEvents
+    });
+  }
+}
