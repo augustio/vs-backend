@@ -4,7 +4,7 @@ const router = express.Router();
 const Record = require('../controllers/recordController');
 
 // POST request for creating record.
-router.post('/', Record.createRecord);
+router.post('/', Record.postRecord);
 
 // GET request for list of records for a specified patient
 router.get('/user/:userId', Record.getRecords);

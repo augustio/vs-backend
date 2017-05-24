@@ -7,18 +7,15 @@ const recordSchema = Schema({
   _id: {type: String, required: true},
   patientId: {type: String, required: true},
   type: {type: String, required: true},
-  startTimeStamp: {type: Number, required: true},
-  endTimeStamp: {type: Number},
+  recStart: {type: Number, required: true},
+  recEnd: {type: Number},
   size: {type: Number},
   samplingRate: {type: Number, default: 250},
   pEStart: [{type: Number}],
   pEEnd: [{type: Number}],
-  temp: [{type: Number}],
-  data: {type: String, ref: 'RecordData'},
-  analysis: {type: String, ref: 'RecordAnalysis'}
+  temp: [{type: Number}]
 });
 
-recordSchema.index({timeStamp: 1, patientId: 1});
 recordSchema.index({patientId: 1});
 recordSchema.plugin(uniqueValidator);
 

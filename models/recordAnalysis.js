@@ -8,7 +8,8 @@ const recordAnalysisSchema = Schema({
     rPeaks: {type: {}},
     pvcEvents: {type: {}},
     rrIntervals: {type: {}},
-    hrvFeatures: {type: {}}
+    hrvFeatures: {type: {}},
+    afibEvents: {type: {}}
 });
 
 recordAnalysisSchema.plugin(uniqueValidator);

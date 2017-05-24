@@ -1,4 +1,5 @@
 const Record = require('../models/record');
+const recordUtil = require('../utils/record');
 
 //Get list of records
 exports.getRecords = (req, res, next) => {
@@ -13,9 +14,42 @@ exports.getRecord = (req, res, next) => {
   res.send('NOT IMPLEMENTED: GET_RECORD: ' + req.params.record_id);
 };
 
-//Handle create record request
-exports.createRecord = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: CREATE_RECORD');
+//Handle POST record request
+exports.postRecord = (req, res, next) => {
+  let _id = `${req.body.patientId}_${req.body.type}_${req.body.recStart}`;
+  Record.findOne({_id})
+    .exec((err, existingRec) => {
+      if(existingRec){ //If Record exists
+        //Update record's size
+        Record.findOne({_id})
+          .exec((err, record) => {
+            if(record){
+              record.set({
+                size: record.size + req.body.chOne.length
+              });
+              record.save(err => console.log(err));
+            }
+          });
+        //Update record's data
+        RecordData.findOne({_id})
+          .exec((err, recordData) => {
+            if(recordData){
+              recordData.set({
+                chOne: [...recordData.chOne, ...req.body.chOne],
+                chTwo: [...recordData.chTwo, ...req.body.chTwo],
+                chThree: [...recordData.chThree, ...req.body.chThree]
+              });
+              recordData.save(err => console.log(err));
+            }
+          });
+      }else{//Create new record
+        const record = recordUtil.buildRecord(req.body);
+        const recordData = recordUtil.buildRecordData(req.body);
+        record.save(err => console.log(err));
+        recordData.save(err => console.log(err));
+      }
+      res.status(200).send({_id});
+    });
 };
 
 //Handle delete record request
