@@ -10,10 +10,11 @@ const recordSchema = Schema({
   recStart: {type: Number, required: true},
   recEnd: {type: Number},
   size: {type: Number},
-  samplingRate: {type: Number, default: 250},
-  pEStart: [{type: Number}],
-  pEEnd: [{type: Number}],
-  temp: [{type: Number}]
+  samplingRate: {type: Number},
+  pEStart: {type: [Number]},
+  pEEnd: {type: [Number]},
+  temp: {type: [Number]},
+  alarms: {type: [{}]}
 });
 
 recordSchema.index({patientId: 1});

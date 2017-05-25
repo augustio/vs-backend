@@ -8,9 +8,9 @@ module.exports = {
       patientId: reqBody.patientId,
       type: reqBody.type,
       recStart: reqBody.recStart,
-      recEnd: reqBody.recEnd,
+      recEnd: reqBody.recEnd || 0,
       size: reqBody.chOne.length,
-      samplingRate: reqBody.samplingRate,
+      samplingRate: reqBody.samplingRate || 250,
       pEStart: [reqBody.pEStart],
       pEEnd: [reqBody.pEEnd],
       temp: [reqBody.temp]
@@ -20,9 +20,9 @@ module.exports = {
   buildRecordData: reqBody => {
     return new RecordData({
       _id: `${reqBody.patientId}_${reqBody.type}_${reqBody.recStart}`,
-      chOne: reqBody.chOne,
-      chTwo: reqBody.chTwo,
-      chThree: reqBody.chThree
+      chOne: {[reqBody.start]: reqBody.chOne},
+      chTwo: {[reqBody.start]: reqBody.chTwo},
+      chThree: {[reqBody.start]: reqBody.chThree}
     });
   },
 
