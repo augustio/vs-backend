@@ -16,6 +16,12 @@ router.get('/user/:userId', Record.getRecords);
 // GET request for a single record.
 router.get('/:record_id', Record.getRecord);
 
+// GET request for record data.
+router.get('/:record_id/data', Record.getRecordData);
+
+// GET request for record analysis.
+router.get('/:record_id/analysis', Record.getRecordAnalysis);
+
 // DELETE request to delete record.
 router.delete('/:record_id', Record.deleteRecord);
 

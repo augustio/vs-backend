@@ -2,6 +2,7 @@ const async = require('async');
 
 const Record = require('../models/record');
 const RecordData = require('../models/recordData');
+const RecordAnalysis = require('../models/recordAnalysis');
 const recordUtil = require('../utils/record');
 
 //Get list of records for a specified patient
@@ -74,7 +75,38 @@ exports.postRecord = (req, res, next) => {
     });
 };
 
-//Handle delete record request
+//Handle GET record data request
+exports.getRecordData = (req, res, next) => {
+  RecordData.findOne({_id: req.params.record_id})
+    .exec((err, data) => {
+      if(err) { next(err); }
+      else if(data) {
+        let compareFunction = (a, b) => Number(a) - Number(b);
+        let chOneKeys = Object.keys(data.chOne || []).sort(compareFunction);
+        let chTwoKeys = Object.keys(data.chTwo || []).sort(compareFunction);
+        let chThreeKeys = Object.keys(data.chThree || []).sort(compareFunction);
+        let chOne = chOneKeys.map(k => data.chOne[k])
+                             .reduce((acc, r) => [...acc, ...r]);
+        let chTwo = chTwoKeys.map(k => data.chTwo[k])
+                             .reduce((acc, r) => [...acc, ...r]);
+        let chThree = chThreeKeys.map(k => data.chThree[k])
+                             .reduce((acc, r) => [...acc, ...r]);
+        res.status(200).send({_id: data._id, chOne, chTwo, chThree});
+      }
+    else { next({status: 400, message: "Not found"}) }
+    });
+}
+
+//Handle GET record analysis request
+exports.getRecordAnalysis = (req, res, next) => {
+  RecordAnalysis.findOne({_id: req.params.record_id})
+    .exec((err, recordAnalysis) => {
+      if(err) { return next(err); }
+      res.status(200).send(recordAnalysis);
+    });
+}
+
+//Handle DELETE record request
 exports.deleteRecord = (req, res, next) => {
   async.parallel([
     callback => RecordData.remove({_id: req.params.record_id}, callback),
