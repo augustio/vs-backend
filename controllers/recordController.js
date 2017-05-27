@@ -38,9 +38,9 @@ exports.postRecord = (req, res, next) => {
                 if(record){
                   record.set({
                     size: record.size + req.body.chOne.length,
-                    temp: [...temp, ...req.body.temp],
-                    pEStart: Object.assign({[req.body.start]: req.body.pEStart}),
-                    pEEnd: Object.assign({[req.body.start]: req.body.pEEnd})
+                    temp: [...record.temp, req.body.temp],
+                    pEStart: Object.assign({[req.body.start]: req.body.pEStart}, record.pEStart),
+                    pEEnd: Object.assign({[req.body.start]: req.body.pEEnd}, record.pEEnd)
                   });
                   record.save(callback);
                 }else { callback(err); }
