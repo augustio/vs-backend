@@ -41,10 +41,10 @@ exports.postRecord = (req, res, next) => {
                     temp: [...record.temp, req.body.temp]
                   };
                   if(req.body.pEStart >= 0){
-                    update.pEStart = [...record.pEStart, req.body.PEStart];
+                    update.pEStart = [...record.pEStart, req.body.pEStart];
                   }
                   if(req.body.pEEnd >= 0){
-                    update.pEEnd = [...record.pEEnd, req.body.PEEnd];
+                    update.pEEnd = [...record.pEEnd, req.body.pEEnd];
                   }
                   record.set(update);
                   record.save(callback);
