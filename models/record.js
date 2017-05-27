@@ -11,8 +11,8 @@ const recordSchema = Schema({
   recEnd: {type: Number},
   size: {type: Number},
   samplingRate: {type: Number},
-  pEStart: {type: {}},
-  pEEnd: {type: {}},
+  pEStart: {type: [Number]},
+  pEEnd: {type: [Number]},
   temp: {type: [Number]},
   alarms: {type: [{}]}
 });

@@ -36,12 +36,17 @@ exports.postRecord = (req, res, next) => {
             Record.findOne({_id})
               .exec((err, record) => {
                 if(record){
-                  record.set({
+                  let update = {
                     size: record.size + req.body.chOne.length,
-                    temp: [...record.temp, req.body.temp],
-                    pEStart: Object.assign({[req.body.start]: req.body.pEStart}, record.pEStart),
-                    pEEnd: Object.assign({[req.body.start]: req.body.pEEnd}, record.pEEnd)
-                  });
+                    temp: [...record.temp, req.body.temp]
+                  };
+                  if(req.body.pEStart >= 0){
+                    update.pEStart = [...record.pEStart, req.body.PEStart];
+                  }
+                  if(req.body.pEEnd >= 0){
+                    update.pEEnd = [...record.pEEnd, req.body.PEEnd];
+                  }
+                  record.set(update);
                   record.save(callback);
                 }else { callback(err); }
               });
