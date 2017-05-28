@@ -1,5 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const checkAuthenticated = require('../services/checkAuthenticated');
+
+//Apply authentication middleware
+router.use(checkAuthenticated.authenticate);
 
 // Require controller modules
 const Group = require('../controllers/groupController');
