@@ -12,8 +12,8 @@ module.exports = {
       recEnd: reqBody.recEnd || 0,
       size: reqBody.chOne.length,
       samplingRate: reqBody.samplingRate || 250,
-      pEStart: reqBody.pEStart != 0 ? [reqBody.pEStart * 1000] : [],
-      pEEnd: reqBody.pEEnd != 0 ? [reqBody.pEEnd * 1000] : [],
+      pEStart: reqBody.pEStart != 0 ? [reqBody.pEStart] : [],
+      pEEnd: reqBody.pEEnd != 0 ? [reqBody.pEEnd] : [],
       temp: {count: 1, value: reqBody.temp}
     });
   },
