@@ -3,7 +3,6 @@ const RecordData = require('../models/recordData');
 
 module.exports = {
   buildRecord: reqBody => {
-    console.log(reqBody.pEStart, ':', reqBody.pEEnd);
     return new Record({
       _id: `${reqBody.patientId}_${reqBody.type}_${reqBody.recStart}`,
       patientId: reqBody.patientId,
@@ -21,9 +20,9 @@ module.exports = {
   buildRecordData: reqBody => {
     return new RecordData({
       _id: `${reqBody.patientId}_${reqBody.type}_${reqBody.recStart}`,
-      chOne: {[reqBody.start]: reqBody.chOne},
-      chTwo: {[reqBody.start]: reqBody.chTwo},
-      chThree: {[reqBody.start]: reqBody.chThree}
+      chOne: reqBody.chOne,
+      chTwo: reqBody.chTwo,
+      chThree: reqBody.chThree
     });
   },
 

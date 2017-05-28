@@ -36,7 +36,6 @@ exports.postRecord = (req, res, next) => {
             Record.findOne({_id})
               .exec((err, record) => {
                 if(record){
-                  console.log(req.body.pEStart, ':', req.body.pEEnd);
                   let count = record.temp.count + 1;
                   let value = (record.temp.value + req.body.temp) / count;
                   let update = {
@@ -63,9 +62,9 @@ exports.postRecord = (req, res, next) => {
               .exec((err, recordData) => {
                 if(recordData){
                   recordData.set({
-                    chOne: Object.assign({[req.body.start]: req.body.chOne}, recordData.chOne),
-                    chTwo: Object.assign({[req.body.start]: req.body.chTwo}, recordData.chTwo),
-                    chThree: Object.assign({[req.body.start]: req.body.chThree}, recordData.chThree)
+                    chOne: [...recordData.chOne, ...req.body.chOne],
+                    chTwo: [...recordData.chTwo, ...req.body.chTwo],
+                    chThree: [...recordData.chThree, ...req.body.chThree]
                   });
                   recordData.save(callback);
                 }else{ callback(err); }

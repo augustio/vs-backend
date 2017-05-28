@@ -5,9 +5,9 @@ const Schema = mongoose.Schema;
 
 const recordDataSchema = Schema({
     _id: {type: String, required: true},
-    chOne: {type: {}},
-    chTwo: {type: {}},
-    chThree: {type: {}}
+    chOne: {type: [Number]},
+    chTwo: {type: [Number]},
+    chThree: {type: [Number]}
 });
 
 recordDataSchema.plugin(uniqueValidator);
