@@ -11,6 +11,7 @@ const groups = require('./routes/groups');
 const auth = require('./routes/auth');
 const records = require('./routes/records');
 const config = require('./config/config');
+const cors = require('./services/cors');
 
 const app = express();
 
@@ -24,6 +25,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.use(logger('dev'));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors);
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '../vitalsens-client/dist')));
