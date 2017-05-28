@@ -36,6 +36,7 @@ exports.postRecord = (req, res, next) => {
             Record.findOne({_id})
               .exec((err, record) => {
                 if(record){
+                  console.log(req.body.pEStart, ':', req.body.pEEnd);
                   let count = record.temp.count + 1;
                   let value = (record.temp.value + req.body.temp) / count;
                   let update = {
@@ -45,10 +46,10 @@ exports.postRecord = (req, res, next) => {
                       value
                     }
                   };
-                  if(req.body.pEStart >= 0){
+                  if(req.body.pEStart != 0){
                     update.pEStart = [...record.pEStart, req.body.pEStart * 1000];
                   }
-                  if(req.body.pEEnd >= 0){
+                  if(req.body.pEEnd != 0){
                     update.pEEnd = [...record.pEEnd, req.body.pEEnd * 1000];
                   }
                   record.set(update);
