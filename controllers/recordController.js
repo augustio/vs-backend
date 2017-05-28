@@ -47,10 +47,10 @@ exports.postRecord = (req, res, next) => {
                     }
                   };
                   if(req.body.pEStart != 0){
-                    update.pEStart = [...record.pEStart, req.body.pEStart];
+                    update.pEStart = [...record.pEStart, req.body.pEStart + record.size];
                   }
                   if(req.body.pEEnd != 0){
-                    update.pEEnd = [...record.pEEnd, req.body.pEEnd];
+                    update.pEEnd = [...record.pEEnd, req.body.pEEnd + record.size];
                   }
                   record.set(update);
                   record.save(callback);
