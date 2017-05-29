@@ -4,6 +4,9 @@ const config = require('../config/config');
 const User = require('../models/user');
 
 exports.authenticate = (req, res, next) => {
+  if(req.method == 'OPTIONS'){
+    return next();
+  }
   if(!req.header('Authorization')) {
     return next({status: 401, message: 'Not Authorized'});
   }
