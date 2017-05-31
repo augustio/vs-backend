@@ -88,6 +88,30 @@ exports.postRecord = (req, res, next) => {
     });
 };
 
+//Handle GET record data request for some chunk of data
+exports.getRecordDataChunk = (req, res, next) => {
+  let query = {};
+  if(req.params.startIndex) { query.startIndex = req.params.startIndex; }
+  if(req.params.endIndex) { query.endIndex = req.params.endIndex; }
+  RecordData.findOne({_id: req.params.record_id})
+    .exec((err, data) => {
+      if(err) { return next(err); }
+      let chOne = data.chOne || [];
+      let chTwo = data.chTwo || [];
+      let chThree = data.chThree || [];
+      if(query.startIndex < chOne.length) {
+        chOne = chOne.slice(query.startIndex, query.endIndex);
+      }
+      if(query.startIndex < chTwo.length) {
+        chTwo = chTwo.slice(query.startIndex, query.endIndex);
+      }
+      if(query.startIndex < chThree.length) {
+        chThree = chThree.slice(query.startIndex, query.endIndex);
+      }
+      res.status(200).send({chOne, chTwo, chThree});
+    });
+}
+
 //Handle GET record data request
 exports.getRecordData = (req, res, next) => {
   RecordData.findOne({_id: req.params.record_id})

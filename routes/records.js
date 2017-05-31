@@ -17,6 +17,9 @@ router.get('/user/:userId', Record.getRecords);
 router.get('/:record_id', Record.getRecord);
 
 // GET request for record data.
+router.get('/:record_id/startIndex/:startIndex/endIndex/:endIndex', Record.getRecordDataChunk);
+
+// GET request for record data.
 router.get('/:record_id/data', Record.getRecordData);
 
 // GET request for record analysis.
