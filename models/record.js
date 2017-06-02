@@ -14,7 +14,7 @@ const recordSchema = Schema({
   pEStart: {type: [Number]},
   pEEnd: {type: [Number]},
   temp: {type: {}},
-  alarms: {type: [{}]}
+  alarms: {type: [], default: [0,0,0]}
 });
 
 recordSchema.index({patientId: 1});
