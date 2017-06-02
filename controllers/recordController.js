@@ -40,6 +40,7 @@ exports.postRecord = (req, res, next) => {
                   let value = (record.temp.value + req.body.temp) / count;
                   let update = {
                     size: record.size + req.body.chOne.length,
+                    recEnd: req.body.recEnd;
                     temp: {
                       count,
                       value
