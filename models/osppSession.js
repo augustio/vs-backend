@@ -5,7 +5,10 @@ const Schema = mongoose.Schema;
 
 const osppSessionSchema = Schema({
   _id: {type: String, required: true},
-  sessionConfigParams: {type: {}}
+  sessionId: {type: String},
+  streamUrl: {type: String},
+  outputUrl: {type: String},
+  alarmUrl: {type: String}
 });
 
 osppSessionSchema.plugin(uniqueValidator);
