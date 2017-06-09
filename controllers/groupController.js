@@ -72,7 +72,7 @@ exports.updateGroup = function(req, res, next) {
   let update = {};
   if(req.body.code) { update.code = req.body.code};
   if(req.body.name) { update.name = req.body.name};
-  Group.updateOne(query, update)
+  Group.updateOne(query)
     .exec((err, result) => {
       if(err) { return next(err); }
       res.status(200).send({message: `${result.nModified} group updated!`});

@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "async": "^2.4.1",
+    "autobahn": "^17.5.2",
     "bcrypt": "^1.0.2",
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",

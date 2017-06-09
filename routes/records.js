@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const checkAuthenticated = require('../services/checkAuthenticated');
+const ospp = require('../services/ospp');
 
 const Record = require('../controllers/recordController');
 
@@ -8,7 +9,7 @@ const Record = require('../controllers/recordController');
 router.use(checkAuthenticated.authenticate);
 
 // POST request for creating record.
-router.post('/', Record.postRecord);
+router.post('/', ospp.analyse, Record.postRecord);
 
 // GET request for list of records for a specified patient
 router.get('/user/:userId', Record.getRecords);

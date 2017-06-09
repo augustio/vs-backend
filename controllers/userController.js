@@ -96,7 +96,7 @@ exports.updateUser = function(req, res, next) {
   let update = {};
   if(req.body.email) { update.email = req.body.email};
   if(req.body.password) { update.password = req.body.password};
-  User.findOne(query, update)
+  User.findOne(query)
     .exec((err, user) => {
       if(err) { return next(err); }
       user.set(update);
