@@ -140,7 +140,11 @@ module.exports = {
             RecordAnalysis.findOne({_id})
               .exec((err, analysis) => {
                 if(analysis){
-                  analysis.set({alarms: response});
+                  let alarms = [
+                    ...analysis.alarms,
+                    ...response
+                  ];
+                  analysis.set({alarms});
                   analysis.save(err => {
                     if(err) { console.log(err); }
                   });
