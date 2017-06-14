@@ -127,7 +127,7 @@ module.exports = {
             Record.findOne({_id})
               .exec((err, rec) => {
                 if(rec){
-                  let alarms = [0,0,0];
+                  let alarms = [...rec.alarms];
                   response.forEach(a => {
                     alarms[a.severity] += 1;
                   });
