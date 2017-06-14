@@ -124,38 +124,37 @@ module.exports = {
           const onReceiveAlarm = response => {
             console.log("\n");
             console.log("Alarm received from OSPP.");
-            console.log(response);
-            // Record.findOne({_id})
-            //   .exec((err, rec) => {
-            //     if(rec){
-            //       let alarms = [0,0,0];
-            //       response.forEach(a => {
-            //         alarms[a.severity] += 1;
-            //       });
-            //       rec.set({alarms});
-            //       rec.save(err => {
-            //         if(err) { console.log(err); }
-            //       });
-            //     }
-            //   });
-            // RecordAnalysis.findOne({_id})
-            //   .exec((err, analysis) => {
-            //     if(analysis){
-            //       analysis.set({alarms: response});
-            //       analysis.save(err => {
-            //         if(err) { console.log(err); }
-            //       });
-            //     }else if(err){
-            //       console.log(err);
-            //     }else{
-            //       let analysisObj = {};
-            //       Object.assign(analysisObj, {alarms: response}, {_id});
-            //       let newAnalysis = new RecordAnalysis(analysisObj);
-            //       newAnalysis.save(err => {
-            //         if(err) { console.log(err); }
-            //       });
-            //     }
-            //   });
+            Record.findOne({_id})
+              .exec((err, rec) => {
+                if(rec){
+                  let alarms = [0,0,0];
+                  response.forEach(a => {
+                    alarms[a.severity] += 1;
+                  });
+                  rec.set({alarms});
+                  rec.save(err => {
+                    if(err) { console.log(err); }
+                  });
+                }
+              });
+            RecordAnalysis.findOne({_id})
+              .exec((err, analysis) => {
+                if(analysis){
+                  analysis.set({alarms: response});
+                  analysis.save(err => {
+                    if(err) { console.log(err); }
+                  });
+                }else if(err){
+                  console.log(err);
+                }else{
+                  let analysisObj = {};
+                  Object.assign(analysisObj, {alarms: response}, {_id});
+                  let newAnalysis = new RecordAnalysis(analysisObj);
+                  newAnalysis.save(err => {
+                    if(err) { console.log(err); }
+                  });
+                }
+              });
           }
 
           const onReceiveResults = res => {
