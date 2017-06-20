@@ -7,7 +7,7 @@ const recordAnalysisSchema = Schema({
     _id: {type: String, required: true},
     rPeaks: {type: {}},
     pvcEvents: {type: {}},
-    rrIntervals: {type: {}},
+    rrIntervals: {type: []},
     hrvFeatures: {type: {}},
     afibEvents: {type: {}},
     alarms: {type: [{}]}
