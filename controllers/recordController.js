@@ -24,6 +24,25 @@ exports.getRecord = (req, res, next) => {
     });
 };
 
+//Get a single record with data
+exports.getRecordWithData = (req, res, next) => {
+  Record.findOne({_id: req.params.record_id})
+    .exec((err, record) => {
+      if(err) { return next(err); }
+      RecordData.findOne({_id: req.params.record_id})
+        .exec((err, data) => {
+          if(err) { return next(err); }
+          let fullRecord = {};
+          Object.assign(fullRecord, record._doc, {
+            chOne: data.chOne,
+            chTwo: data.chTwo,
+            chThree: data.chThree
+          });
+          res.status(200).send(fullRecord);
+        });
+    });
+};
+
 //Handle POST record request
 exports.postRecord = (req, res, next) => {
   let _id = `${req.body.patientId}_${req.body.type}_${req.body.recStart}`;

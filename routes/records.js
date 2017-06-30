@@ -14,6 +14,9 @@ router.post('/', ospp.analyse, Record.postRecord);
 // GET request for list of records for a specified patient
 router.get('/user/:userId', Record.getRecords);
 
+// GET request for a single record with data.
+router.get('/:record_id/data', Record.getRecordWithData);
+
 // GET request for a single record.
 router.get('/:record_id', Record.getRecord);
 
