@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "export NODE_ENV='production' && node ./bin/www",
-    "startdev": "export NODE_ENV='development' && nodemon ./bin/www"
+    "startdev": "export NODE_ENV='development' && nodemon ./bin/www",
+    "startdevwindows": "set NODE_ENV=development&&nodemon ./bin/www",
+    "startwindows": "set NODE_ENV=production&&nodemon ./bin/www"
   },
   "dependencies": {
     "async": "^2.4.1",
