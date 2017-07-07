@@ -49,8 +49,8 @@ exports.postRecord = (req, res, next) => {
   Record.findOne({_id})
     .exec((err, existingRec) => {
       if(existingRec){ //If Record exists
-        async.parallel([
-          callback => {
+        async.parallel({
+          record: callback => {
             //Update record's size
             Record.findOne({_id})
               .exec((err, record) => {
@@ -76,7 +76,7 @@ exports.postRecord = (req, res, next) => {
                 }else { callback(err); }
               });
           },
-          callback => {
+          recordData: callback => {
             //Update record's data
             RecordData.findOne({_id})
               .exec((err, recordData) => {
@@ -89,20 +89,34 @@ exports.postRecord = (req, res, next) => {
                   recordData.save(callback);
                 }else{ callback(err); }
               });
-          }
-        ], err =>  {
+          },
+          analysis: callback => RecordAnalysis.findOne({_id})
+            .exec(callback)
+        }, (err, results) =>  {
           if(err) { return res.send(err); }
-          res.status(200).send({message: "Record upload successful"});
+          let rrIntervals = results.analysis.rrIntervals || [];
+          let heartRate = recordUtil.calculateHeartRate(rrIntervals);
+          res.status(200).send({
+            message: "Record upload successful",
+            heartRate
+          });
         });
       }else{//Create new record
         const record = recordUtil.buildRecord(req.body);
         const recordData = recordUtil.buildRecordData(req.body);
-        async.parallel([
-          callback => record.save(callback),
-          callback => recordData.save(callback)
-        ], err => {
+        async.parallel({
+          record: callback => record.save(callback),
+          recordData: callback => recordData.save(callback),
+          analysis: callback => RecordAnalysis.findOne({_id: record._id})
+            .exec(callback)
+        }, (err, results) => {
           if(err) { return res.send(err); }
-          res.status(200).send({message: "Record upload successful"});
+          let rrIntervals = results.analysis.rrIntervals || [];
+          let heartRate = recordUtil.calculateHeartRate(rrIntervals);
+          res.status(200).send({
+            message: "Record upload successful",
+            heartRate
+          });
         });
       }
     });
