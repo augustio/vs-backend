@@ -94,12 +94,13 @@ exports.postRecord = (req, res, next) => {
             .exec(callback)
         }, (err, results) =>  {
           if(err) { return res.send(err); }
-          let rrIntervals = results.analysis.rrIntervals || [];
-          let heartRate = recordUtil.calculateHeartRate(rrIntervals);
-          res.status(200).send({
-            message: "Record upload successful",
-            heartRate
-          });
+          let analysis = results.analysis;
+          if(analysis){
+            let rrIntervals = analysis.rrIntervals || [];
+            let hr = recordUtil.calculateHeartRate(rrIntervals);
+            if(hr){ response.heartRate = hr; } 
+          }
+          res.status(200).send(resonse);
         });
       }else{//Create new record
         const record = recordUtil.buildRecord(req.body);
@@ -111,12 +112,16 @@ exports.postRecord = (req, res, next) => {
             .exec(callback)
         }, (err, results) => {
           if(err) { return res.send(err); }
-          let rrIntervals = results.analysis.rrIntervals || [];
-          let heartRate = recordUtil.calculateHeartRate(rrIntervals);
-          res.status(200).send({
-            message: "Record upload successful",
-            heartRate
-          });
+          let response = {
+            message: "Record upload successful"
+          };
+          let analysis = results.analysis;
+          if(analysis){
+            let rrIntervals = analysis.rrIntervals || [];
+            let hr = recordUtil.calculateHeartRate(rrIntervals);
+            if(hr){ response.heartRate = hr; }
+          }
+          res.status(200).send(response);
         });
       }
     });

@@ -38,6 +38,9 @@ module.exports = {
   },
 
   calculateHeartRate: rrIntervals => {
+    if(rrIntervals.length === 0){
+      return null;
+    }
     let sum = rrIntervals.reduce((a, b) => a + b);
     let averageRRInterval = sum/rrIntervals.length;
     return Math.round(60/averageRRInterval);
