@@ -94,6 +94,9 @@ exports.postRecord = (req, res, next) => {
             .exec(callback)
         }, (err, results) =>  {
           if(err) { return res.send(err); }
+          let response = {
+            message: "Record upload successful"
+          };
           let analysis = results.analysis;
           if(analysis){
             let rrIntervals = analysis.rrIntervals || [];
