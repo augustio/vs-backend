@@ -98,9 +98,9 @@ exports.postRecord = (req, res, next) => {
           if(analysis){
             let rrIntervals = analysis.rrIntervals || [];
             let hr = recordUtil.calculateHeartRate(rrIntervals);
-            if(hr){ response.heartRate = hr; } 
+            if(hr){ response.heartRate = hr; }
           }
-          res.status(200).send(resonse);
+          res.status(200).send(response);
         });
       }else{//Create new record
         const record = recordUtil.buildRecord(req.body);
