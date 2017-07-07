@@ -92,7 +92,7 @@ exports.postRecord = (req, res, next) => {
           }
         ], err =>  {
           if(err) { return res.send(err); }
-          res.status(200).send({message: "Record successfully saved"});
+          res.status(200).send({message: "Record upload successful"});
         });
       }else{//Create new record
         const record = recordUtil.buildRecord(req.body);
@@ -102,7 +102,7 @@ exports.postRecord = (req, res, next) => {
           callback => recordData.save(callback)
         ], err => {
           if(err) { return res.send(err); }
-          res.status(200).send({message: "Record successfully saved"});
+          res.status(200).send({message: "Record upload successful"});
         });
       }
     });
