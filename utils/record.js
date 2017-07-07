@@ -35,5 +35,11 @@ module.exports = {
       hrvFeatures: data.hrvfeatures,
       afibEvents: afibEvents
     });
+  },
+
+  calculateHeartRate: rrIntervals => {
+    let sum = rrIntervals.reduce((a, b) => a + b);
+    let averageRRInterval = sum/rrIntervals.length;
+    return Math.round(60/averageRRInterval);
   }
 }
