@@ -9,6 +9,7 @@ const recordSchema = Schema({
   type: {type: String, required: true},
   recStart: {type: Number, required: true},
   recEnd: {type: Number},
+  duration: {type: Number},
   size: {type: Number},
   samplingRate: {type: Number},
   pEStart: {type: [Number]},
