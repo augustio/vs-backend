@@ -8,7 +8,7 @@ module.exports = {
       patientId: reqBody.patientId,
       type: reqBody.type,
       recStart: reqBody.recStart,
-      recEnd: reqBody.recEnd || 0,
+      recEnd: reqBody.end || 0,
       size: reqBody.chOne.length,
       samplingRate: reqBody.samplingRate || 250,
       pEStart: reqBody.pEStart != 0 ? [reqBody.pEStart] : [],

@@ -8,9 +8,8 @@ const osppSessionSchema = Schema({
   sessionId: {type: String},
   streamUrl: {type: String},
   outputUrl: {type: String},
-  alarmUrl: {type: String}
+  alarmUrl: {type: String},
+  timeStamp: {type: Number}
 });
-
-osppSessionSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model('OSPPSession', osppSessionSchema);

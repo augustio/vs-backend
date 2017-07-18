@@ -89,7 +89,8 @@ module.exports = {
                   sessionId,
                   streamUrl,
                   outputUrl,
-                  alarmUrl
+                  alarmUrl,
+                  timeStamp: Date.now()
                 });
                 newOsppSession.save(err => {
                   if(err){ console.log(err); }
